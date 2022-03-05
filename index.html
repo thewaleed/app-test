@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>Todo App</title>
+  </head>
+  <body>
+    <form id="form" action="/todos/addtask">
+      <input id="textbox1" value="tata" type="text" name="task" />
+      <!-- <input id="difficulty" type="range" name="difficulty" min="0" max="10"  /> -->
+      <input id="button" type="submit" value="Create" />
+    </form>
+    <ul id="todos"> 
+      {% for d in data %}
+      {% endfor %}
+    </ul>
+    
+    <!-- <input id="textbox2" value="tata" type="text" name="task" />
+    <input id="button1" method="post" type="submit" value="Create"/> -->
+
+    <script>
+      document.getElementById('form').onsubmit = function(e){
+        e.preventdefault();
+        fetch("/todos/addtask", {
+              method: 'POST',
+              body: JSON.stringify({"task1":document.getElementById("textbox1").value}),
+              headers : new Headers({"content-type": "application/json"})
+    })
+    .then(function(response) {
+         return response.json();
+    })
+    .then(function(response1){
+         console.log(response1);
+         newLI=document.createElement('LI') 
+         newLI.innerHTML =response1['task'];
+         document.getElementById('todos').appendChild(newLI);
+    })
+      }
+    </script>
+
+    
+  </body>
+</html>
